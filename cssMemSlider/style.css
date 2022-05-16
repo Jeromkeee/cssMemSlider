@@ -1,3 +1,4 @@
+/* верстка страницы */
 html {
     scroll-behavior: smooth;
 }
@@ -12,29 +13,49 @@ body {
     background-color: antiquewhite;
 }
 
+input {
+	display: none;
+}
+
 .container {
     margin: 0 auto;
     max-width: 1000px;
     padding: 30px;
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 500;
-    font-size: 20px;
     display: grid;
-    grid-template-rows: 500px 50px;
+    grid-template-rows: auto 50px;
     grid-template-columns: 2fr 1fr;
     grid-template-areas: 'img img' 'txt dots';
     grid-row-gap: 15px;
-
-
+    position: relative;
 }
+
+/* слайдер */
 
 .memslider {
     grid-area: img;
     margin-bottom: 20px;
     width: 100%;
-    height: 500px;
+    aspect-ratio: 1 / 1;
     background-color: darkgray;
+    display: flex;
+    overflow: hidden;
+    position: relative;
 }
+
+.slide {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    opacity: 0;
+}
+
+.img {
+    width: 100%;
+    height: 100%;
+}
+
+/* контролы */
 
 .controls {
     grid-area: dots;
@@ -47,22 +68,72 @@ body {
     gap: 10px;
 }
 
-.text {
-    grid-area: txt;
-    padding: 10px;
-    min-width: 400px;
-}
-
-.dot {
+label {
+	cursor: pointer;
     width: 12px;
     height: 12px;
-    border-radius: 10px;
+    border-radius: 50%;
     background-color: aqua;
+    transition: .2s;
 }
+
+label:hover {
+    background-color: white;
+}
+
+/* описание */
+
+.textbox {
+    grid-area: txt;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 20px;
+    padding: 10px;
+    min-width: 400px;
+    position: relative;
+}
+
+.text {
+    z-index: 0;
+    opacity: 0;
+    position: absolute;
+}
+
+/* анимация */
+
+#t1:checked ~ .memslider > .slide1,
+#t2:checked ~ .memslider > .slide2,
+#t3:checked ~ .memslider > .slide3,
+#t4:checked ~ .memslider > .slide4,
+#t1:checked ~ .textbox > p:nth-of-type(1),
+#t2:checked ~ .textbox > p:nth-of-type(2),
+#t3:checked ~ .textbox > p:nth-of-type(3),
+#t4:checked ~ .textbox > p:nth-of-type(4) {
+    opacity: 1;
+	z-index: 1;
+}
+
+#t1:checked ~ .controls label:nth-of-type(1),
+#t2:checked ~ .controls label:nth-of-type(2),
+#t3:checked ~ .controls label:nth-of-type(3),
+#t4:checked ~ .controls label:nth-of-type(4) {
+	border: 2px solid aqua;
+    background-color: white;
+}
+
+#t1:checked ~ .controls label:nth-of-type(1):hover,
+#t2:checked ~ .controls label:nth-of-type(2):hover,
+#t3:checked ~ .controls label:nth-of-type(3):hover,
+#t4:checked ~ .controls label:nth-of-type(4):hover {
+	border: 2px solid rgb(0, 60, 255);
+    background-color: white;
+}
+
+/* адаптивная верстка */
 
 @media (max-width: 660px) {
     .container {
-        grid-template-rows: 500px auto 150px;
+        grid-template-rows: auto auto 150px;
         grid-template-columns: 1fr;
         grid-template-areas: 'img' 'dots' 'txt';
     }
